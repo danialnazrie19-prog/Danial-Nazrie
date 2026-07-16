@@ -6,11 +6,13 @@
     <title>Danial Nazrie | Portfolio</title>
     <style>
         :root {
-            --bg-color: #0a0a0f;
-            --text-main: #e0e0e0;
-            --accent-cyan: #00f3ff;
-            --accent-pink: #ff00ea;
-            --card-bg: rgba(20, 20, 30, 0.8);
+            /* --- Light & Blue Theme Colors --- */
+            --bg-color: #f4f7fb;
+            --text-main: #334155;
+            --text-muted: #64748b;
+            --primary-blue: #1d4ed8; 
+            --secondary-blue: #3b82f6; 
+            --card-bg: #ffffff;
         }
         
         * {
@@ -29,30 +31,45 @@
         header {
             text-align: center;
             padding: 6rem 2rem;
-            background: linear-gradient(180deg, rgba(0,243,255,0.05) 0%, var(--bg-color) 100%);
-            border-bottom: 2px solid var(--accent-cyan);
-            box-shadow: 0 0 20px rgba(0, 243, 255, 0.2);
+            background: linear-gradient(180deg, rgba(59, 130, 246, 0.1) 0%, var(--bg-color) 100%);
+            border-bottom: 2px solid var(--primary-blue);
+            box-shadow: 0 4px 15px rgba(29, 78, 216, 0.05);
+        }
+
+        .profile-pic {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--primary-blue);
+            box-shadow: 0 10px 25px rgba(29, 78, 216, 0.15);
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        .profile-pic:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 35px rgba(29, 78, 216, 0.25);
+            border-color: var(--secondary-blue);
         }
 
         h1 {
             font-size: 3.5rem;
-            color: #fff;
+            color: var(--primary-blue);
             text-transform: uppercase;
             letter-spacing: 2px;
-            text-shadow: 0 0 10px var(--accent-cyan), 0 0 20px var(--accent-cyan);
         }
 
         h2 {
             font-size: 1.5rem;
-            color: var(--accent-pink);
+            color: var(--secondary-blue);
             margin-top: 10px;
-            text-shadow: 0 0 5px var(--accent-pink);
         }
 
         .contact-info {
             margin-top: 20px;
-            font-size: 0.9rem;
-            color: #aaa;
+            font-size: 0.95rem;
+            color: var(--text-muted);
         }
 
         .container {
@@ -63,9 +80,9 @@
 
         .section-title {
             font-size: 2rem;
-            color: var(--accent-cyan);
+            color: var(--primary-blue);
             margin-bottom: 2rem;
-            border-bottom: 1px solid var(--accent-pink);
+            border-bottom: 2px solid var(--secondary-blue);
             display: inline-block;
             padding-bottom: 5px;
         }
@@ -81,68 +98,96 @@
             background: var(--card-bg);
             padding: 2rem;
             border-radius: 8px;
-            border-left: 4px solid var(--accent-cyan);
+            border-left: 4px solid var(--primary-blue);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 243, 255, 0.1);
+            box-shadow: 0 10px 20px rgba(29, 78, 216, 0.1);
         }
 
         .card h3 {
-            color: #fff;
+            color: var(--primary-blue);
             margin-bottom: 10px;
         }
 
         .card p {
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             margin-bottom: 15px;
         }
 
         .tech-stack span {
             display: inline-block;
-            background: rgba(255, 0, 234, 0.1);
-            color: var(--accent-pink);
-            padding: 5px 10px;
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--primary-blue);
+            padding: 5px 12px;
             border-radius: 4px;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             margin: 0 5px 5px 0;
-            border: 1px solid var(--accent-pink);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            font-weight: 500;
         }
 
+        /* --- Portfolio Grid --- */
         .portfolio-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
         }
 
         .portfolio-item {
             position: relative;
             overflow: hidden;
-            border-radius: 8px;
-            border: 1px solid rgba(0, 243, 255, 0.3);
-            background: #000;
+            border-radius: 12px;
+            background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            aspect-ratio: 4 / 3; 
+            transition: background 0.3s ease;
+        }
+
+        /* Stop shimmer and create a clean white background on hover */
+        .portfolio-item:hover {
+            background: #ffffff;
+            animation: none;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
         }
 
         .portfolio-item img {
             width: 100%;
-            height: auto;
+            height: 100%;
+            object-fit: cover; /* Cropped perfectly to eliminate empty space initially */
+            object-position: center;
             display: block;
-            transition: transform 0.5s ease;
-            opacity: 0.8;
+            transition: transform 0.3s ease;
+            animation: fadeIn 1s ease-in forwards; 
         }
 
-        .portfolio-item:hover img {
-            transform: scale(1.05);
-            opacity: 1;
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
+
+        /* --- NEW: Reveal Original Image on Hover --- */
+        .portfolio-item:hover img {
+            object-fit: contain; /* Switches to show the entire uncropped image */
+            transform: scale(0.95); /* Shrinks it slightly so it looks nicely framed */
+        }
+        /* ------------------------------------------- */
 
         footer {
             text-align: center;
             padding: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid rgba(29, 78, 216, 0.15);
             margin-top: 4rem;
+            color: var(--text-muted);
         }
 
         @media (max-width: 768px) {
@@ -155,6 +200,8 @@
 <body>
 
     <header>
+        <img src="My Pic.jpg" alt="Danial Nazrie Profile Picture" class="profile-pic">
+        
         <h1>Danial Nazrie</h1>
         <h2>Digital Marketer & Multimedia</h2>
         <div class="contact-info">
@@ -207,33 +254,60 @@
         <h2 class="section-title">Design & Multimedia Portfolio</h2>
         <div class="portfolio-grid">
             <div class="portfolio-item">
-                <img src="RchardWolfPirana2.jpg" alt="Richard Wolf Piranha">
+                <img src="1.webp" alt="Richard Wolf Piranha">
             </div>
             <div class="portfolio-item">
-                <img src="EDElvation.jpg" alt="ED Elvation">
+                <img src="2.webp" alt="ED Elvation">
             </div>
             <div class="portfolio-item">
-                <img src="AVRO Medical wound care flyer.png" alt="AVRO Medical Wound Care">
+                <img src="3.webp" alt="AVRO Medical Wound Care">
             </div>
             <div class="portfolio-item">
-                <img src="Untitled-1(3).jpg" alt="Pharmaserv E-ECP Therapy">
+                <img src="4.webp" alt="Pharmaserv E-ECP Therapy">
             </div>
             <div class="portfolio-item">
-                <img src="Untitled-1.jpg" alt="PiezoWave">
+                <img src="5.webp" alt="PiezoWave">
             </div>
             <div class="portfolio-item">
-                <img src="NewSharkmeetPiranhabanner.jpg" alt="Shark Meets Piranha Banner">
+                <img src="6.webp" alt="Shark Meets Piranha Banner">
             </div>
             <div class="portfolio-item">
-                <img src="Sales Clinical.jpg" alt="Sales Clinical">
+                <img src="7.jpg" alt="Sales Clinical">
             </div>
             <div class="portfolio-item">
-                <img src="Activon® Honey Offer Flyer(avrostyle).jpg" alt="Activon Honey Offer Flyer">
+                <img src="8.webp" alt="Activon Honey Offer Flyer">
             </div>
             <div class="portfolio-item">
-                <img src="FlyerGlobal1.jpg" alt="Global Wound Conference">
+                <img src="9.webp" alt="Global Wound Conference">
             </div>
-        </div>
+	    <div class="portfolio-item">
+                <img src="10.webp" alt="Global Wound Conference">
+            </div>
+             <div class="portfolio-item">
+                <img src="11.webp" alt="Global Wound Conference">
+            </div>
+             <div class="portfolio-item">
+                <img src="12.webp" alt="Global Wound Conference">
+            </div>
+             <div class="portfolio-item">
+                <img src="13.webp" alt="Global Wound Conference">
+            </div>
+             <div class="portfolio-item">
+                <img src="14.webp" alt="Global Wound Conference">
+            </div>
+             <div class="portfolio-item">
+                <img src="15.webp" alt="Global Wound Conference">
+            </div>
+             <div class="portfolio-item">
+                <img src="16.webp" alt="Global Wound Conference">
+            </div>
+             <div class="portfolio-item">
+                <img src="17.webp" alt="Global Wound Conference">
+            </div>  
+               <div class="portfolio-item">
+                <img src="18.webp" alt="Global Wound Conference">
+            </div>  
+	</div>
 
     </div>
 
