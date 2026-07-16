@@ -12,6 +12,7 @@
             --text-muted: #64748b;
             --primary-blue: #1d4ed8; 
             --secondary-blue: #3b82f6; 
+            --accent-gold: #fbbf24; /* Added a subtle gold accent for that game-like feel */
             --card-bg: #ffffff;
         }
         
@@ -147,9 +148,9 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.05);
             aspect-ratio: 4 / 3; 
             transition: background 0.3s ease;
+            cursor: pointer; /* Makes it clear it can be clicked */
         }
 
-        /* Stop shimmer and create a clean white background on hover */
         .portfolio-item:hover {
             background: #ffffff;
             animation: none;
@@ -163,10 +164,10 @@
         .portfolio-item img {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Cropped perfectly to eliminate empty space initially */
+            object-fit: cover;
             object-position: center;
             display: block;
-            transition: transform 0.3s ease;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             animation: fadeIn 1s ease-in forwards; 
         }
 
@@ -175,12 +176,91 @@
             to { opacity: 1; }
         }
 
-        /* --- NEW: Reveal Original Image on Hover --- */
+        /* Subtle zoom on hover */
         .portfolio-item:hover img {
-            object-fit: contain; /* Switches to show the entire uncropped image */
-            transform: scale(0.95); /* Shrinks it slightly so it looks nicely framed */
+            transform: scale(1.05);
         }
-        /* ------------------------------------------- */
+
+        /* Genshin-style "Click/Tap to View" Indicator */
+        .portfolio-item::after {
+            content: "✦ Tap to View ✦";
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(15, 23, 42, 0.8);
+            color: var(--accent-gold);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.3s ease, bottom 0.3s ease;
+            pointer-events: none;
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            backdrop-filter: blur(4px);
+        }
+
+        .portfolio-item:hover::after {
+            opacity: 1;
+            bottom: 20px;
+        }
+
+        /* --- NEW: Lightbox Modal Styles (Genshin Style) --- */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(15, 23, 42, 0.85); /* Dark blue/grey background */
+            backdrop-filter: blur(8px); /* Blur effect for modern feel */
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 85vh;
+            border-radius: 12px;
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.4), 0 0 10px rgba(251, 191, 36, 0.2); /* Blue & Gold Glow */
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            transform: scale(0.9);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            object-fit: contain;
+        }
+
+        .modal.show .modal-content {
+            transform: scale(1); /* Popping animation */
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: #ffffff;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease, transform 0.3s ease;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            z-index: 10000;
+        }
+
+        .close-btn:hover {
+            color: var(--accent-gold);
+            transform: scale(1.1);
+        }
 
         footer {
             text-align: center;
@@ -193,6 +273,12 @@
         @media (max-width: 768px) {
             .resume-grid {
                 grid-template-columns: 1fr;
+            }
+            
+            /* Make the indicator always slightly visible on mobile so they know to tap */
+            .portfolio-item::after {
+                opacity: 0.9;
+                bottom: 15px;
             }
         }
     </style>
@@ -253,67 +339,72 @@
 
         <h2 class="section-title">Design & Multimedia Portfolio</h2>
         <div class="portfolio-grid">
-            <div class="portfolio-item">
-                <img src="1.webp" alt="Richard Wolf Piranha">
-            </div>
-            <div class="portfolio-item">
-                <img src="2.webp" alt="ED Elvation">
-            </div>
-            <div class="portfolio-item">
-                <img src="3.webp" alt="AVRO Medical Wound Care">
-            </div>
-            <div class="portfolio-item">
-                <img src="4.webp" alt="Pharmaserv E-ECP Therapy">
-            </div>
-            <div class="portfolio-item">
-                <img src="5.webp" alt="PiezoWave">
-            </div>
-            <div class="portfolio-item">
-                <img src="6.webp" alt="Shark Meets Piranha Banner">
-            </div>
-            <div class="portfolio-item">
-                <img src="7.jpg" alt="Sales Clinical">
-            </div>
-            <div class="portfolio-item">
-                <img src="8.webp" alt="Activon Honey Offer Flyer">
-            </div>
-            <div class="portfolio-item">
-                <img src="9.webp" alt="Global Wound Conference">
-            </div>
-	    <div class="portfolio-item">
-                <img src="10.webp" alt="Global Wound Conference">
-            </div>
-             <div class="portfolio-item">
-                <img src="11.webp" alt="Global Wound Conference">
-            </div>
-             <div class="portfolio-item">
-                <img src="12.webp" alt="Global Wound Conference">
-            </div>
-             <div class="portfolio-item">
-                <img src="13.webp" alt="Global Wound Conference">
-            </div>
-             <div class="portfolio-item">
-                <img src="14.webp" alt="Global Wound Conference">
-            </div>
-             <div class="portfolio-item">
-                <img src="15.webp" alt="Global Wound Conference">
-            </div>
-             <div class="portfolio-item">
-                <img src="16.webp" alt="Global Wound Conference">
-            </div>
-             <div class="portfolio-item">
-                <img src="17.webp" alt="Global Wound Conference">
-            </div>  
-               <div class="portfolio-item">
-                <img src="18.webp" alt="Global Wound Conference">
-            </div>  
-	</div>
+            <div class="portfolio-item"><img src="1.webp" alt="Richard Wolf Piranha"></div>
+            <div class="portfolio-item"><img src="2.webp" alt="ED Elvation"></div>
+            <div class="portfolio-item"><img src="3.webp" alt="AVRO Medical Wound Care"></div>
+            <div class="portfolio-item"><img src="4.webp" alt="Pharmaserv E-ECP Therapy"></div>
+            <div class="portfolio-item"><img src="5.webp" alt="PiezoWave"></div>
+            <div class="portfolio-item"><img src="6.webp" alt="Shark Meets Piranha Banner"></div>
+            <div class="portfolio-item"><img src="7.jpg" alt="Sales Clinical"></div>
+            <div class="portfolio-item"><img src="8.webp" alt="Activon Honey Offer Flyer"></div>
+            <div class="portfolio-item"><img src="9.webp" alt="Global Wound Conference"></div>
+            <div class="portfolio-item"><img src="10.webp" alt="Global Wound Conference"></div>
+            <div class="portfolio-item"><img src="11.webp" alt="Global Wound Conference"></div>
+            <div class="portfolio-item"><img src="12.webp" alt="Global Wound Conference"></div>
+            <div class="portfolio-item"><img src="13.webp" alt="Global Wound Conference"></div>
+            <div class="portfolio-item"><img src="14.webp" alt="Global Wound Conference"></div>
+            <div class="portfolio-item"><img src="15.webp" alt="Global Wound Conference"></div>
+            <div class="portfolio-item"><img src="16.webp" alt="Global Wound Conference"></div>
+            <div class="portfolio-item"><img src="17.webp" alt="Global Wound Conference"></div>  
+            <div class="portfolio-item"><img src="18.webp" alt="Global Wound Conference"></div>  
 
+        </div>
+
+    </div>
+
+    <div id="imageModal" class="modal">
+        <span class="close-btn">&times;</span>
+        <img class="modal-content" id="expandedImg">
     </div>
 
     <footer>
         <p>&copy; 2026 Danial Nazrie. All rights reserved.</p>
     </footer>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const modal = document.getElementById("imageModal");
+            const modalImg = document.getElementById("expandedImg");
+            const items = document.querySelectorAll(".portfolio-item img");
+            const closeBtn = document.querySelector(".close-btn");
+
+            // Open Modal on click/tap
+            items.forEach(img => {
+                img.addEventListener("click", () => {
+                    modal.style.display = "flex";
+                    // Brief timeout allows the browser to process display:flex before adding the opacity animation
+                    setTimeout(() => modal.classList.add("show"), 10);
+                    modalImg.src = img.src;
+                });
+            });
+
+            // Close Modal Function
+            const closeModal = () => {
+                modal.classList.remove("show");
+                // Wait for animation to finish before hiding completely
+                setTimeout(() => modal.style.display = "none", 300); 
+            };
+
+            // Close when clicking the X button
+            closeBtn.addEventListener("click", closeModal);
+
+            // Close when clicking anywhere on the dark background
+            modal.addEventListener("click", (e) => {
+                if(e.target === modal) {
+                    closeModal();
+                }
+            });
+        });
+    </script>
 </body>
 </html>
