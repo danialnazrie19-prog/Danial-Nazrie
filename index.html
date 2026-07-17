@@ -10,7 +10,7 @@
     <style>
         :root {
             /* --- Theme Colors --- */
-            --bg-color: #0b111e; /* Changed to dark to match the Genshin theme */
+            --bg-color: #0b111e; 
             --text-main: #f3f4f6;
             --text-muted: #9ca3af;
             --primary-blue: #60a5fa; 
@@ -28,10 +28,47 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        body {
+        body, html {
             background-color: var(--bg-color);
             color: var(--text-main);
             line-height: 1.6;
+            overflow-x: hidden; /* Prevents unwanted horizontal scrolling on mobile */
+        }
+
+        /* --- PRELOADER (LOADING SCREEN) --- */
+        #preloader {
+            position: fixed;
+            inset: 0;
+            background-color: var(--bg-color);
+            z-index: 999999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 1s ease, visibility 0.5s ease;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(198, 160, 94, 0.2);
+            border-top: 3px solid var(--accent-gold);
+            border-radius: 50%;
+            animation: spin 0.5s linear infinite;
+        }
+
+        .loading-text {
+            margin-top: 15px;
+            color: var(--accent-gold);
+            font-family: 'Playfair Display', serif;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         /* --- HEADER BASED ON REFERENCE IMAGE --- */
@@ -66,7 +103,7 @@
             color: var(--accent-gold);
             font-family: 'Playfair Display', serif; 
             font-weight: 500;
-            font-size: 1.3rem;
+            font-size: clamp(1rem, 3vw, 1.3rem); /* Responsive font sizing */
             text-transform: uppercase;
             letter-spacing: 1px;
         }
@@ -101,7 +138,7 @@
             left: 4rem;
             top: 45%;
             transform: translateY(-50%);
-            width: 45%;
+            width: 50%;
             color: var(--header-cream);
             display: flex;
             flex-direction: column;
@@ -124,7 +161,7 @@
 
         .hero-name {
             font-family: 'Playfair Display', serif; 
-            font-size: 4.5rem;
+            font-size: clamp(2.5rem, 6vw, 4.5rem); /* Smooth scaling on all screens */
             text-transform: uppercase;
             letter-spacing: 3px;
             color: var(--header-cream);
@@ -142,7 +179,7 @@
             display: flex;
             align-items: center;
             color: var(--accent-gold);
-            font-size: 1.2rem;
+            font-size: clamp(0.85rem, 2vw, 1.2rem);
             text-transform: uppercase;
             letter-spacing: 1.5px;
         }
@@ -151,7 +188,7 @@
             color: var(--header-cream);
             text-transform: none;
             letter-spacing: 0.5px;
-            font-size: 1.1rem;
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
         }
 
         .hero-job-title::before, .hero-job-title::after {
@@ -241,7 +278,7 @@
         }
 
         .section-title {
-            font-size: 2rem;
+            font-size: clamp(1.5rem, 4vw, 2rem);
             color: var(--accent-gold);
             margin-bottom: 2rem;
             border-bottom: 1px solid var(--accent-gold);
@@ -302,8 +339,9 @@
         /* --- PORTFOLIO GRID --- */
         .portfolio-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 25px;
+            /* Changed from 320px to min(100%, 280px) to prevent horizontal scrolling on tiny phones */
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+            gap: 20px;
         }
 
         .portfolio-item {
@@ -436,6 +474,7 @@
             color: var(--text-muted);
         }
 
+        /* --- MOBILE & TABLET MEDIA QUERIES --- */
         @media (max-width: 1024px) {
             .header-hero-content {
                 width: 70%;
@@ -448,26 +487,31 @@
         }
 
         @media (max-width: 768px) {
+            .container {
+                padding: 3rem 1rem;
+            }
             .header-top-bar {
                 flex-direction: column;
                 gap: 1rem;
-                padding: 1.5rem;
+                padding: 1.5rem 1rem;
+                text-align: center;
             }
             .header-nav ul {
-                gap: 1rem;
+                gap: 1.5rem;
                 flex-wrap: wrap;
                 justify-content: center;
             }
             .header-hero-content {
                 width: 90%;
-                left: 2rem;
+                left: 5%;
                 top: 55%;
             }
-            .hero-name {
-                font-size: 3rem;
-            }
             .header-contact-items {
-                left: 2rem;
+                left: 5%;
+                bottom: 1rem;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
             }
             .resume-grid {
                 grid-template-columns: 1fr;
@@ -476,10 +520,19 @@
                 opacity: 0.9;
                 bottom: 15px;
             }
+            .hero-buttons {
+                justify-content: flex-start;
+            }
         }
     </style>
 </head>
 <body>
+
+    <!-- --- LOADING SCREEN (PRELOADER) --- -->
+    <div id="preloader">
+        <div class="spinner"></div>
+        <div class="loading-text">Loading</div>
+    </div>
 
     <!-- --- NEW HEADER (From Image Reference) --- -->
     <header class="genshin-hero">
@@ -489,11 +542,9 @@
                 MUHAMMAD NURAFIQ DANIAL BIN MOHD NAZRIE
             </div>
         
-		<nav class="header-nav">
+            <nav class="header-nav">
                 <ul>
-
                     <li><a href="#portfolio">PORTFOLIO</a></li>
-        
                 </ul>
             </nav> 
         </div>
@@ -580,24 +631,25 @@
 
         <h2 id="portfolio" class="section-title">Design & Multimedia Portfolio</h2>
         <div class="portfolio-grid">
-            <div class="portfolio-item"><img src="1.webp" alt="Richard Wolf Piranha"></div>
-            <div class="portfolio-item"><img src="2.webp" alt="ED Elvation"></div>
-            <div class="portfolio-item"><img src="3.webp" alt="AVRO Medical Wound Care"></div>
-            <div class="portfolio-item"><img src="4.webp" alt="Pharmaserv E-ECP Therapy"></div>
-            <div class="portfolio-item"><img src="5.webp" alt="PiezoWave"></div>
-            <div class="portfolio-item"><img src="6.webp" alt="Shark Meets Piranha Banner"></div>
-            <div class="portfolio-item"><img src="7.jpg" alt="Sales Clinical"></div>
-            <div class="portfolio-item"><img src="8.webp" alt="Activon Honey Offer Flyer"></div>
-            <div class="portfolio-item"><img src="9.webp" alt="Global Wound Conference"></div>
-            <div class="portfolio-item"><img src="10.webp" alt="Global Wound Conference"></div>
-            <div class="portfolio-item"><img src="11.webp" alt="Global Wound Conference"></div>
-            <div class="portfolio-item"><img src="12.webp" alt="Global Wound Conference"></div>
-            <div class="portfolio-item"><img src="13.webp" alt="Global Wound Conference"></div>
-            <div class="portfolio-item"><img src="14.webp" alt="Global Wound Conference"></div>
-            <div class="portfolio-item"><img src="15.webp" alt="Global Wound Conference"></div>
-            <div class="portfolio-item"><img src="16.webp" alt="Global Wound Conference"></div>
-            <div class="portfolio-item"><img src="17.webp" alt="Global Wound Conference"></div>  
-            <div class="portfolio-item"><img src="18.webp" alt="Global Wound Conference"></div>  
+            <!-- Added loading="lazy" for better performance and to ensure the preloader doesn't hang -->
+            <div class="portfolio-item"><img src="1.webp" loading="lazy" alt="Richard Wolf Piranha"></div>
+            <div class="portfolio-item"><img src="2.webp" loading="lazy" alt="ED Elvation"></div>
+            <div class="portfolio-item"><img src="3.webp" loading="lazy" alt="AVRO Medical Wound Care"></div>
+            <div class="portfolio-item"><img src="4.webp" loading="lazy" alt="Pharmaserv E-ECP Therapy"></div>
+            <div class="portfolio-item"><img src="5.webp" loading="lazy" alt="PiezoWave"></div>
+            <div class="portfolio-item"><img src="6.webp" loading="lazy" alt="Shark Meets Piranha Banner"></div>
+            <div class="portfolio-item"><img src="7.jpg" loading="lazy" alt="Sales Clinical"></div>
+            <div class="portfolio-item"><img src="8.webp" loading="lazy" alt="Activon Honey Offer Flyer"></div>
+            <div class="portfolio-item"><img src="9.webp" loading="lazy" alt="Global Wound Conference"></div>
+            <div class="portfolio-item"><img src="10.webp" loading="lazy" alt="Global Wound Conference"></div>
+            <div class="portfolio-item"><img src="11.webp" loading="lazy" alt="Global Wound Conference"></div>
+            <div class="portfolio-item"><img src="12.webp" loading="lazy" alt="Global Wound Conference"></div>
+            <div class="portfolio-item"><img src="13.webp" loading="lazy" alt="Global Wound Conference"></div>
+            <div class="portfolio-item"><img src="14.webp" loading="lazy" alt="Global Wound Conference"></div>
+            <div class="portfolio-item"><img src="15.webp" loading="lazy" alt="Global Wound Conference"></div>
+            <div class="portfolio-item"><img src="16.webp" loading="lazy" alt="Global Wound Conference"></div>
+            <div class="portfolio-item"><img src="17.webp" loading="lazy" alt="Global Wound Conference"></div>  
+            <div class="portfolio-item"><img src="18.webp" loading="lazy" alt="Global Wound Conference"></div>  
         </div>
 
     </div>
@@ -614,6 +666,15 @@
 
     <!-- --- ORIGINAL SCRIPT --- -->
     <script>
+        // --- NEW: Loading Screen Logic ---
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            preloader.style.opacity = '0';
+            setTimeout(() => {
+                preloader.style.visibility = 'hidden';
+            }, 500); // Matches the CSS transition duration
+        });
+
         document.addEventListener('DOMContentLoaded', () => {
             const modal = document.getElementById("imageModal");
             const modalImg = document.getElementById("expandedImg");
